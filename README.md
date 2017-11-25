@@ -11,9 +11,9 @@
 **URL Git:** https://github.com/yosoyafa/so-exam3  
 
 
-### Punto 3  
+### Punto 3 y 4   
 
-Para desplegar el sistema propuesto, se utilizaron varias máquinas, una de ellas fue utilizada como **balanceador de carga** y otra como un **descubridor de servicios**; el resto de máquinas brindad los microservicios. El sistema funciona de tal forma que un cliente cualquiera se conecta a él, y el balanceador de cargas que pide servicios a un descubridor de servicios, el cual ya ha *descubierto* servidores que brindan ciertos servicios, y hace que el cliente utilice alguno de ellos, si es el caso.  
+Para desplegar el sistema propuesto, se utilizaron varias máquinas, una de ellas fue utilizada como **balanceador de carga** y otra como un **descubridor de servicios**; el resto de máquinas brindad los **microservicios**. El sistema funciona de tal forma que un cliente cualquiera se conecta a él, y el balanceador de cargas que pide servicios a un descubridor de servicios, el cual ya ha *descubierto* servidores que brindan ciertos servicios, y hace que el cliente utilice alguno de ellos, si es el caso.  
    
    Primeramente, se configuró el balanceador de cargas, instalando las dependencias de HAProxy:
    ```
@@ -66,26 +66,106 @@ Ya se puede ver el funcionamiento del balanceador de cargas:
   
     ![][3]
     
-    Ya para el montaje del descubridor de servicios, se debe usar consul en la máquina designada pero en modo servidor, para poder recibir a los clientes:
+    Ya para el montaje del descubridor de servicios, se debe usar consul en la máquina designada pero en modo servidor, para poder recibir a los clientes.
     
     Primero se instalan las dependencias:
-    ```
- yum install -y wget unzip
- wget https://releases.hashicorp.com/consul/1.0.0/consul_1.0.0_linux_amd64.zip -P /tmp
- unzip /tmp/consul_1.0.0_linux_amd64.zip -d /tmp
- mv /tmp/consul /usr/bin
- mkdir /etc/consul.d
- mkdir -p /etc/consul/data
+    
 ```
- ![][4]
+# yum install -y wget unzip
+# wget https://releases.hashicorp.com/consul/1.0.0/consul_1.0.0_linux_amd64.zip -P /tmp
+# unzip /tmp/consul_1.0.0_linux_amd64.zip -d /tmp
+# mv /tmp/consul /usr/bin
+# mkdir /etc/consul.d
+# mkdir -p /etc/consul/data
+```
+
+Se crea el usuario consul, donde se implementarán estos servicios:
+
+```
+# adduser consul
+# passwd consul
+# chown -R consul:consul /etc/consul
+# chown -R consul:consul /etc/consul.d
+```
+
+Se abren los puertos necesarios para desplegar el servicio:
+```
+# firewall-cmd --zone=public --add-port=8301/tcp --permanent
+# firewall-cmd --zone=public --add-port=8300/tcp --permanent
+# firewall-cmd --zone=public --add-port=8500/tcp --permanent
+# firewall-cmd --reload
+```
+
+Ahora se inicia el agente en modo servidor:
+    
+ ![][4]  
       
-      Con el servidor de descubrimeiento montado, ya se pueden visualizar los agentes de consul que han sido *descubiertos*:
-      
-        ![][5]
+Con el servidor de descubrimeiento montado, ya se pueden visualizar los agentes de consul que han sido descubiertos:
++```
++$ consul members
++```  
         
-      Funcionamiento de descubrimiento de servicios:
+![][5]
+        
+Funcionamiento de descubrimiento de servicios:
       
-        ![][6]
+![][6]
+
+Ahora se procede a la configuracion de los microservicios en diferentes servidores que trabajaran como *consul-agents*.  
+Primero se deben instalar las dependencias necesarias:
+```
+# yum install -y wget unzip
+# wget https://bootstrap.pypa.io/get-pip.py -P /tmp
+# python /tmp/get-pip.py
+# wget https://releases.hashicorp.com/consul/1.0.0/consul_1.0.0_linux_amd64.zip -P /tmp
+# unzip /tmp/consul_1.0.0_linux_amd64.zip -d /tmp
+# mv /tmp/consul /usr/bin
+# mkdir /etc/consul.d
+# mkdir -p /etc/consul/data
+```
+Se crea el usuario consul, donde se implementarán estos servicios:
+```
+# adduser consul
+# passwd consul
+# chown -R consul:consul /etc/consul
+# chown -R consul:consul /etc/consul.d
+```
+
+Se abren los puertos necesarios para desplegar el servicio:
+```
+# firewall-cmd --zone=public --add-port=8301/tcp --permanent
+# firewall-cmd --reload
+# firewall-cmd --zone=public --add-port=8080/tcp --permanent
+# firewall-cmd --reload
+```
+En un usuario designado para el despliegue del microservicio se instala la librería de *flask* y se procede a editar en python el microservicio:
+```
+$ pip install flask
+$ vi microservice_a.py
+```
+![][7]
+
+Se inicia el microservicio y se verifica que funcione correctamente:
+```
+$ python afaservicio.py
+```
+![][8]
+
+Servicio funcionando:
+![][9]
+
+Se crea un archivo de configuración para el microservicio con un healthcheck en el usuario *consul*:
+![][10]
+
+Se inicia el *consul-agent*:
+
+![][11]
+
+Por útlimo, se une el microservicio al descubridor, y se verifica que se encuentre el microservcio en la lista de miembros:
+
+![][12]
+
+
         
         
    
