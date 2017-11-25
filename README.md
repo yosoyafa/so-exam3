@@ -194,9 +194,13 @@ Para incluir un microservicio diferente al ya desplegado, se requiere un API Gat
 
 
 ### Referencias  
-* https://sysdig.com/blog/monitoring-greedy-containers-part-1/  
-* https://www.certdepot.net/rhel7-get-started-cgroups/ 
-* https://github.com/ICESI/so-containers  
+* https://www.slideshare.net/aalmiray/introduccion-a-programacion-reactiva  
+* https://www.nginx.com/blog/building-microservices-using-an-api-gateway/
+* https://www.nginx.com/blog/microservices-api-gateways-part-1-why-an-api-gateway/
+* https://github.com/ICESI/so-discovery-service
+* https://github.com/ICESI/so-microservices-python/tree/master/01_virtualenvs
+* https://github.com/ICESI/so-microservices-python/tree/master/02_intro_flask
+* https://www.upcloud.com/support/haproxy-load-balancer-centos/
 
         
 [1]: images/configuracionBalanceador.png
