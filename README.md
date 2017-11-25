@@ -11,7 +11,7 @@
 **URL Git:** https://github.com/yosoyafa/so-exam3  
 
 
-### Punto 3 y 4   
+### Punto 3   
 
 Para desplegar el sistema propuesto, se utilizaron varias máquinas, una de ellas fue utilizada como **balanceador de carga** y otra como un **descubridor de servicios**; el resto de máquinas brindad los **microservicios**. El sistema funciona de tal forma que un cliente cualquiera se conecta a él, y el balanceador de cargas que pide servicios a un descubridor de servicios, el cual ya ha *descubierto* servidores que brindan ciertos servicios, y hace que el cliente utilice alguno de ellos, si es el caso.  
    
@@ -141,7 +141,7 @@ Se abren los puertos necesarios para desplegar el servicio:
 En un usuario designado para el despliegue del microservicio se instala la librería de *flask* y se procede a editar en python el microservicio:
 ```
 $ pip install flask
-$ vi microservice_a.py
+$ vi afaservicio.py
 ```
 ![][7]
 
@@ -166,6 +166,41 @@ Por útlimo, se une el microservicio al descubridor, y se verifica que se encuen
 ![][12]
 
 
+### Punto 4  
+
+Con varios microservicios disponibles, el balanceador puede referir el cliente a alguno de ellos, y para esto utiliza el metodo *round-robin* que va direccionando de manera secuencial cada cliente, al siguiente servidor:
+
+Funcionamiento del balanceador: 
+![][13]
+
+Evidencias del balanceo:
+
+![][14]
+
+![][15]
+
+![][16]
+
+
+### Punto 5
+
+Para incluir un microservicio diferente al ya desplegado, se requiere un API Gateway, el cual será el que reciba las solicitudes de los clientes (anteriromente este era el trabajo del balanceador) y se conecta a los balanceadores de cada servicio. El API Gateway se encargará de reunir los servicios y así poder hacer un uso más eficiente de la infraestructura desplegada, codificando los servicios prestados. Ahora bien, todo esto es posible gracias al paradigma reactivo, el cual hace un envio asíncrono de la información solicitado, sin tener que lidiar con los resultados obtenidos o los errores presentados, los cuales se revisan en momentos posteriores.
+
         
-        
-   
+[1]: images/configuracionBalanceador.png
+[2]: images/BalanceadorCorriendo.png
+[3]: images/configuracionConsulTemplates.png
+[4]: images/consul_agent_server.PNG
+[5]: images/consul_members.PNG
+[6]: images/consul_logs.PNG	
+[7]: images/py.png
+[8]: images/gets.png
+[9]: images/afaservicio.png
+[10]: images/json.png
+[11]: images/consulagent.png
+[12]: images/afaConsulMembers.png
+[13]: images/DemostracionFuncionBalanceador.png
+[14]: images/b1.png
+[15]: images/b2.png
+[16]: images/b3.png 
+  
