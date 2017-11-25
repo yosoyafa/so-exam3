@@ -64,9 +64,10 @@ Ya se puede ver el funcionamiento del balanceador de cargas:
   
   Ahora bien, para poder hacer actualizaciones automáticas de los servicios descubiertos, se usa consul-tamplate, agregando el nombre del micorservicio, junto su IP:
   
-    ![][3]
+    ![][3]  
     
-    Ya para el montaje del descubridor de servicios, se debe usar consul en la máquina designada pero en modo servidor, para poder recibir a los clientes.
+    
+Ya para el montaje del descubridor de servicios, se debe usar consul en la máquina designada pero en modo servidor, para poder recibir a los clientes.
     
     Primero se instalan las dependencias:
     
