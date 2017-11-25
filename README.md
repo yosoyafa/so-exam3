@@ -138,23 +138,29 @@ Se abren los puertos necesarios para desplegar el servicio:
 # firewall-cmd --zone=public --add-port=8080/tcp --permanent
 # firewall-cmd --reload
 ```
+  
 En un usuario designado para el despliegue del microservicio se instala la librería de *flask* y se procede a editar en python el microservicio:
+  
 ```
 $ pip install flask
 $ vi afaservicio.py
 ```
 ![][7]
+  
 
 Se inicia el microservicio y se verifica que funcione correctamente:
 ```
 $ python afaservicio.py
 ```
+  
 ![][8]
 
-Servicio funcionando:
+Servicio funcionando:  
+  
 ![][9]
 
 Se crea un archivo de configuración para el microservicio con un healthcheck en el usuario *consul*:
+  
 ![][10]
 
 Se inicia el *consul-agent*:
