@@ -192,6 +192,12 @@ Evidencias del balanceo:
 
 Para incluir un microservicio diferente al ya desplegado, se requiere un API Gateway, el cual será el que reciba las solicitudes de los clientes (anteriromente este era el trabajo del balanceador) y se conecta a los balanceadores de cada servicio. El API Gateway se encargará de reunir los servicios y así poder hacer un uso más eficiente de la infraestructura desplegada, codificando los servicios prestados. Ahora bien, todo esto es posible gracias al paradigma reactivo, el cual hace un envio asíncrono de la información solicitado, sin tener que lidiar con los resultados obtenidos o los errores presentados, los cuales se revisan en momentos posteriores.
 
+
+### Referencias  
+* https://sysdig.com/blog/monitoring-greedy-containers-part-1/  
+* https://www.certdepot.net/rhel7-get-started-cgroups/ 
+* https://github.com/ICESI/so-containers  
+
         
 [1]: images/configuracionBalanceador.png
 [2]: images/BalanceadorCorriendo.png
