@@ -69,7 +69,7 @@ Ahora bien, para poder hacer actualizaciones automáticas de los servicios descu
     
 Ya para el montaje del descubridor de servicios, se debe usar consul en la máquina designada pero en modo servidor, para poder recibir a los clientes.
     
-    Primero se instalan las dependencias:
+Primero se instalan las dependencias:
     
 ```
 # yum install -y wget unzip
