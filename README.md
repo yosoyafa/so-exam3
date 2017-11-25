@@ -15,8 +15,8 @@
 
 Para desplegar el sistema propuesto, se utilizaron varias máquinas, una de ellas fue utilizada como **balanceador de carga** y otra como un **descubridor de servicios**; el resto de máquinas brindad los **microservicios**. El sistema funciona de tal forma que un cliente cualquiera se conecta a él, y el balanceador de cargas que pide servicios a un descubridor de servicios, el cual ya ha *descubierto* servidores que brindan ciertos servicios, y hace que el cliente utilice alguno de ellos, si es el caso.  
    
-   Primeramente, se configuró el balanceador de cargas, instalando las dependencias de HAProxy:
-   ```
+Primeramente, se configuró el balanceador de cargas, instalando las dependencias de HAProxy:
+```
 $ sudo yum info haproxy
 $ sudo yum install gcc pcre-static pcre-devel -y
 $ wget https://www.haproxy.org/download/1.7/src/haproxy-1.7.8.tar.gz -O ~/haproxy.tar.gz
@@ -26,10 +26,10 @@ $ make TARGET=linux2628
 $ sudo make install
 ```
 
-  Ahora se procede a configurar el HAProxy:  
+Ahora se procede a configurar el HAProxy:  
   
-  ```
-  $ sudo mkdir -p /etc/haproxy
+```
+$ sudo mkdir -p /etc/haproxy
 $ sudo mkdir -p /var/lib/haproxy 
 $ sudo touch /var/lib/haproxy/stats
 $ sudo cp ~/haproxy-1.7.8/examples/haproxy.init /etc/init.d/haproxy
@@ -56,15 +56,15 @@ $ sudo systemctl restart haproxy
 
 Configuracion del balanceador:
 
-  ![][1]
+![][1]
 
 Ya se puede ver el funcionamiento del balanceador de cargas:
 
-  ![][2]
+![][2]
   
-  Ahora bien, para poder hacer actualizaciones automáticas de los servicios descubiertos, se usa consul-tamplate, agregando el nombre del micorservicio, junto su IP:
+Ahora bien, para poder hacer actualizaciones automáticas de los servicios descubiertos, se usa consul-tamplate, agregando el nombre del micorservicio, junto su IP:
   
-    ![][3]  
+![][3]  
     
     
 Ya para el montaje del descubridor de servicios, se debe usar consul en la máquina designada pero en modo servidor, para poder recibir a los clientes.
